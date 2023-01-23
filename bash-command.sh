@@ -12,7 +12,7 @@ if [[ (("${#SERNUM}"> 11)) ]]; then
     DEVICE_YEAR=$( echo "$DEVICE_MODEL_CURL" | grep -o 'Early\|Mid\|Late\|20[^',']*'| tr -d ')' )
     DEVICE_YEAR_COUNT=$(echo $DEVICE_YEAR | grep -o 'Early\|Mid\|Late\|20[^',']*' | grep -o '20' | wc -l)
     if (($DEVICE_YEAR_COUNT > 1)); then
-      DEVICE_YEAR=$( echo $DEVICE_YEAR | sed 's/\(.\{3\}\)/\1 /g' | awk '{$1=$1" ou"}1')
+      DEVICE_YEAR=$( echo $DEVICE_YEAR | grep -o 'Early\|Mid\|Late\|20[^',']*' | sed 's/[0-9][0-9][0-9][0-9]/ & or /')
     fi
   elif [ -z "$DEVICE_YEAR" ]; then
     DEVICE_YEAR="Année inconnue"
@@ -27,7 +27,7 @@ elif [[ (("${#SERNUM}" < 11)) ]]; then
     DEVICE_MODEL_CURL=$(curl -s "https://raw.githubusercontent.com/Trush182/mac-models/main/models" | grep "$DEIVCE_IDENTIFIER" | cut -f1 -d"|")
     DEVICE_YEAR_COUNT=$(echo $DEVICE_YEAR | grep -o 'Early\|Mid\|Late\|20[^',']*' | grep -o '20' | wc -l)
     if (($DEVICE_YEAR_COUNT > 1)); then
-      DEVICE_YEAR=$( echo $DEVICE_YEAR | sed 's/\(.\{3\}\)/\1 /g' | awk '{$1=$1" ou"}1')
+      DEVICE_YEAR=$( echo $DEVICE_YEAR | grep -o 'Early\|Mid\|Late\|20[^',']*' | sed 's/[0-9][0-9][0-9][0-9]/ & or /')
     fi
   elif [ -z $DEVICE_YEAR ]; then
     DEVICE_YEAR="Année inconnue"
